@@ -1,0 +1,52 @@
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{algorithm2e}
+\usepackage{algpseudocode}
+
+% Translations
+\SetKw{KwTo}{do}
+\SetKwFor{For}{Dla}{wykonuj}{koniec}
+\SetKwIF{If}{ElseIf}{Else}{Jeżeli}{to}{w przeciwnym razie jeżeli}{w przeciwnym razie}{koniec}
+
+% Document
+\begin{document}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+        Wczytaj zbiór \textbf{input\_text}\\
+        \textbf{max\_number} $\gets$ BRAK\\
+        \textbf{partial\_number} $\gets$ ""\\
+        \textbf{input\_text} $\gets$ \textbf{input\_text} + ";"\\
+
+        \For{$i \gets 1$ \KwTo długość(input\_text)}{
+            \textbf{current\_char} $\gets$ input\_text[i]\\
+
+            \If{current\_char $\neq$ ";"}{
+                \textbf{partial\_number} $\gets$ \textbf{partial\_number} + \textbf{current\_char}\\
+                \textbf{kolejny obieg pętli}\\
+            }
+
+            \If{partial\_number $=$ ""}{
+                \textbf{kolejny obieg pętli}\\
+            }
+
+            \textbf{current\_number} $\gets$ float(partial\_number)\\
+
+            \If{max\_number $=$ BRAK \textbf{lub} current\_number $>$ max\_number}{
+                \textbf{max\_number} $\gets$ \textbf{current\_number}\\
+            }
+
+            \textbf{partial\_number} $\gets$ ""\\
+        }
+        Wypisz \textbf{max\_number}\\
+        Stop\\
+
+        \label{alg:algorithm}
+    \end{algorithm}
+
+\end{document}
