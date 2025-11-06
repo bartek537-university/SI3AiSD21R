@@ -1,25 +1,40 @@
-input_text = "3.14;5;;2"
+def find_max(input_text: str) -> float | None:
+    input_text += ";"
 
-max_number: None | float = None
+    max_number: None | float = None
 
-partial_number = ""
-input_text += ";"
+    current_number = 0.0
+    decimal_numerator = 0
+    is_negative = False
 
-for i in range(len(input_text)):
-    current_char = input_text[i]
+    for current_char in input_text:
+        if current_char.isnumeric():
+            if decimal_numerator > 0:
+                current_number += int(current_char) * 10 ** (-decimal_numerator)
+                decimal_numerator += 1
+            else:
+                current_number = current_number * 10 + int(current_char)
+            continue
 
-    if current_char != ";":
-        partial_number += current_char
-        continue
+        if current_char == ".":
+            decimal_numerator = 1
+            continue
 
-    if partial_number == "":
-        continue
+        if current_char == "-":
+            is_negative = True
+            continue
 
-    current_number = float(partial_number)
+        if is_negative:
+            current_number *= -1
 
-    if max_number is None or current_number > max_number:
-        max_number = current_number
+        if max_number is None or current_number > max_number:
+            max_number = current_number
 
-    partial_number = ""
+        current_number = 0.0
+        decimal_numerator = 0
+        is_negative = False
 
-print(max_number)
+    return max_number
+
+
+print(find_max("3.14;3.14001;-5;0;2"))
