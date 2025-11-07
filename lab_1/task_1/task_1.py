@@ -37,4 +37,4 @@ def find_max(input_text: str) -> float | None:
     return max_number
 
 
-print(find_max("3.14;3.14001;-5;0;2"))
+print(find_max("31.415;42;-15"))
