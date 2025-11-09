@@ -1,0 +1,194 @@
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{amsmath}
+\usepackage{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage[paperheight=15in,margin=1in]{geometry}
+
+% Translations
+\SetKw{KwTo}{do}
+\SetKw{Length}{długość}
+\SetKw{ToNumber}{liczba}
+\SetKwFor{For}{Dla}{wykonuj}{koniec}
+\SetKw{Continue}{Przejdź do kolejnej iteracji pętli}
+\SetKwIF{If}{ElseIf}{Else}{Jeżeli}{to}{w przeciwnym razie jeżeli}{w przeciwnym razie}{koniec}
+
+% Document
+\begin{document}
+
+    \section{Zamiana notacji infiksowej w postfiksową.}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+
+        Start\\
+
+        operation\_order $\gets$ \textbf{słownik}\{"(" $\gets$ 0, "+" $\gets$ 1, "-" $\gets$ 1, "*" $\gets$ 2, "/" $\gets$ 2, "\textasciicircum" $\gets$ 3\}\\
+
+        Wczytaj równanie w notacji inteksowej infix\_equation\\
+
+        values $\gets$ pusty stos typu tekstowego\\
+        operations $\gets$ pusty stos typu tekstowego\\
+        is\_previous\_symbol\_numeric $\gets$ fałsz\\
+
+        \For{i $\gets$ 1 \KwTo \Length (input\_text)}{
+            current\_char $\gets$ input\_text[i]\\
+
+            \If{current\_char jest liczbą}{
+                \If{is\_previous\_symbol\_numeric}{
+                    temp1 $\gets$ Wartość z góry stosu \textbf{values}\\
+                    Usuń wartość z góry stosu \textbf{values}\\
+                    temp2 $\gets$ temp1 $+$ current\_char\\
+                    Wstaw na górę stosu \textbf{values} temp2\\
+                }
+                \Else{
+                    Wstaw na górę stosu \textbf{values} current\_char\\
+                }
+                \Continue
+            }
+
+            is\_previous\_symbol\_numeric $\gets$ fałsz\\
+
+            \If{current\_char $=$ "\space"} {
+                \Continue
+            }
+            \If{current\_char $=$ "("} {
+                Wstaw na górę stosu \textbf{operations} current\_char\\
+                \Continue
+            }
+            \If{current\_char $=$ ")"} {
+                \While{wartość z góry stosu \textbf{operations} != "("} {
+                    right\_operand $\gets$ Wartość z góry stosu \textbf{values}\\
+                    Usuń wartość z góry stosu \textbf{values}\\
+                    left\_operand $\gets$ Wartość z góry stosu \textbf{values}\\
+                    Usuń wartość z góry stosu \textbf{values}\\
+                    operation $\gets$ Wartość z góry stosu \textbf{operations}\\
+                    Usuń wartość z góry stosu \textbf{operations}\\
+                    temp1 $\gets$ left\_operand $+$ "\space" $+$ operation $+$ "\space" $+$ right\_operand \\
+                    Wstaw na górę stosu \textbf{values} temp1\\
+                }
+                Usuń wartość z góry stosu \textbf{operations}\\
+                \Continue
+            }
+            \While{operation\_order[current\_char] < operation\_order[Wartość z góry stosu \textbf{operations}]} {
+                right\_operand $\gets$ Wartość z góry stosu \textbf{values}\\
+                Usuń wartość z góry stosu \textbf{values}\\
+                left\_operand $\gets$ Wartość z góry stosu \textbf{values}\\
+                Usuń wartość z góry stosu \textbf{values}\\
+                operation $\gets$ Wartość z góry stosu \textbf{operations}\\
+                Usuń wartość z góry stosu \textbf{operations}\\
+                temp1 $\gets$ left\_operand $+$ "\space" $+$ operation $+$ "\space" $+$ right\_operand \\
+                Wstaw na górę stosu \textbf{values} temp1\\
+            }
+            Wstaw na górę stosu \textbf{operations} current\_char\\
+        }
+
+        Wypisz Wartość z góry stosu \textbf{values}\\
+        Stop\\
+
+        \label{alg:algorithm1}
+    \end{algorithm}
+
+    \section{Zamiana notacji postfiksowej w infiksową.}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+
+        Start\\
+
+        operation\_order $\gets$ \textbf{słownik}\{"(" $\gets$ 0, "+" $\gets$ 1, "-" $\gets$ 1, "*" $\gets$ 2, "/" $\gets$ 2, "\textasciicircum" $\gets$ 3\}\\
+
+        Wczytaj równanie w notacji postfiksowej postfix\_equation\\
+
+        values $\gets$ pusty stos typu tekstowego\\
+        operations $\gets$ pusty stos typu tekstowego\\
+        is\_previous\_symbol\_numeric $\gets$ fałsz\\
+
+        \For{i $\gets$ 1 \KwTo \Length (input\_text)}{
+            current\_char $\gets$ input\_text[i]\\
+
+            \If{current\_char jest liczbą}{
+                \If{is\_previous\_symbol\_numeric}{
+                    temp1 $\gets$ Wartość z góry stosu \textbf{values}\\
+                    Usuń wartość z góry stosu \textbf{values}\\
+                    temp2 $\gets$ temp1 $+$ current\_char\\
+                    Wstaw na górę stosu \textbf{values} temp2\\
+                }
+                \Else{
+                    Wstaw na górę stosu \textbf{values} current\_char\\
+                    Wstaw na górę stosu \textbf{operations} ""\\
+                }
+                \Continue
+            }
+
+            is\_previous\_symbol\_numeric $\gets$ fałsz\\
+
+            \If{current\_char $=$ "\space"} {
+                \Continue
+            }
+
+            right\_value $\gets$ Wartość z góry stosu \textbf{values}\\
+            Usuń wartość z góry stosu \textbf{values}\\
+            right\_operation $\gets$ Wartość z góry stosu \textbf{operations}\\
+            Usuń wartość z góry stosu \textbf{operations}\\
+
+            \If{right\_operation $\neq$ ""\space\textbf{i} operation\_order[current\_char] > operation\_order[right\_operation]} {
+                right\_value $\gets$ "(" $+$ right\_value $+$ ")"\\
+            }
+
+            left\_value $\gets$ Wartość z góry stosu \textbf{values}\\
+            Usuń wartość z góry stosu \textbf{values}\\
+            left\_operation $\gets$ Wartość z góry stosu \textbf{operations}\\
+            Usuń wartość z góry stosu \textbf{operations}\\
+
+            \If{left\_operation $\neq$ ""\space\textbf{i} operation\_order[current\_char] > operation\_order[left\_operation]} {
+                left\_value $\gets$ "(" $+$ left\_value $+$ ")"\\
+            }
+
+            temp1 $\gets$ left\_value $+$ current\_char $+$ right\_value \\
+            Wstaw na górę stosu \textbf{values} temp1\\
+            Wstaw na górę stosu \textbf{operations} current_char\\
+
+%            \If{current\_char $=$ "("} {
+%                Wstaw na górę stosu \textbf{operations} current\_char\\
+%                \Continue
+%            }
+%            \If{current\_char $=$ ")"} {
+%                \While{wartość z góry stosu \textbf{operations} != "("} {
+%                    right\_operand $\gets$ Wartość z góry stosu \textbf{values}\\
+%                    Usuń wartość z góry stosu \textbf{values}\\
+%                    left\_operand $\gets$ Wartość z góry stosu \textbf{values}\\
+%                    Usuń wartość z góry stosu \textbf{values}\\
+%                    operation $\gets$ Wartość z góry stosu \textbf{operations}\\
+%                    Usuń wartość z góry stosu \textbf{operations}\\
+%                    temp1 $\gets$ left\_operand $+$ "\space" $+$ operation $+$ "\space" $+$ right\_operand \\
+%                    Wstaw na górę stosu \textbf{values} temp1\\
+%                }
+%                Usuń wartość z góry stosu \textbf{operations}\\
+%                \Continue
+%            }
+%            \While{operation\_order[current\_char] < operation\_order[Wartość z góry stosu \textbf{operations}]} {
+%                right\_operand $\gets$ Wartość z góry stosu \textbf{values}\\
+%                Usuń wartość z góry stosu \textbf{values}\\
+%                left\_operand $\gets$ Wartość z góry stosu \textbf{values}\\
+%                Usuń wartość z góry stosu \textbf{values}\\
+%                operation $\gets$ Wartość z góry stosu \textbf{operations}\\
+%                Usuń wartość z góry stosu \textbf{operations}\\
+%                temp1 $\gets$ left\_operand $+$ "\space" $+$ operation $+$ "\space" $+$ right\_operand \\
+%                Wstaw na górę stosu \textbf{values} temp1\\
+%            }
+%            Wstaw na górę stosu \textbf{operations} current\_char\\
+        }
+
+        Wypisz Wartość z góry stosu \textbf{values}\\
+        Stop\\
+
+        \label{alg:algorithm2}
+    \end{algorithm}
+
+\end{document}

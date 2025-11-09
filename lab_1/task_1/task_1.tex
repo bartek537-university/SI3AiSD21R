@@ -2,46 +2,68 @@
 \documentclass[11pt]{article}
 
 % Packages
+\usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
 \usepackage{amsmath}
 \usepackage{algorithm2e}
 \usepackage{algpseudocode}
+\usepackage[paperheight=15in,margin=1in]{geometry}
 
 % Translations
 \SetKw{KwTo}{do}
+\SetKw{Length}{długość}
+\SetKw{ToNumber}{liczba}
 \SetKwFor{For}{Dla}{wykonuj}{koniec}
+\SetKw{Continue}{Przejdź do kolejnej iteracji pętli}
 \SetKwIF{If}{ElseIf}{Else}{Jeżeli}{to}{w przeciwnym razie jeżeli}{w przeciwnym razie}{koniec}
 
 % Document
 \begin{document}
 
+    \section{Wyszukiwanie największej liczby w zbiorze.}
+
     \begin{algorithm}[H]
         \SetAlgoLined
         Start\\
-        Wczytaj zbiór \textbf{input\_text}\\
-        \textbf{max\_number} $\gets$ BRAK\\
-        \textbf{partial\_number} $\gets$ ""\\
-        \textbf{input\_text} $\gets$ \textbf{input\_text} + ";"\\
+        Wczytaj zbiór input\_text\\
+        input\_text $\gets$ input\_text + ";"\\
+        max\_number $\gets$ BRAK\\
+        current\_number $\gets$ 0.0\\
+        decimal\_numerator $\gets$ 0\\
+        is\_negative $\gets$ fałsz\\
 
-        \For{$i \gets 1$ \KwTo długość(input\_text)}{
-            \textbf{current\_char} $\gets$ input\_text[i]\\
+        \For{i $\gets$ 1 \KwTo \Length (input\_text)}{
+            current\_char $\gets$ input\_text[i]\\
 
-            \If{current\_char $\neq$ ";"}{
-                \textbf{partial\_number} $\gets$ \textbf{partial\_number} + \textbf{current\_char}\\
-                \textbf{kolejny obieg pętli}\\
+            \If{current\_char jest liczbą}{
+                \If{decimal\_numerator $>$ 0}{
+                    current\_number $\gets$ current\_number $+$ \ToNumber (current\_char) $*$ 10^{-decimal\_numerator}\\
+                    decimal\_numerator $\gets$ decimal\_numerator + 1\\
+                }
+                \Else{
+                    current\_number $\gets$ current\_number $*$ 10 $+$ \ToNumber (current\_char)\\
+                }
+                \Continue
             }
-
-            \If{partial\_number $=$ ""}{
-                \textbf{kolejny obieg pętli}\\
+            \If{current\_char $=$ "."}{
+                decimal\_numerator $\gets$ 1\\
+                \Continue
             }
-
-            \textbf{current\_number} $\gets$ float(partial\_number)\\
-
+            \If{current\_char $=$ "-"}{
+                is\_negative $\gets$ prawda\\
+                \Continue
+            }
+            \If{is\_negative}{
+                current\_number $\gets$ current\_number * -1\\
+            }
             \If{max\_number $=$ BRAK \textbf{lub} current\_number $>$ max\_number}{
-                \textbf{max\_number} $\gets$ \textbf{current\_number}\\
+                max\_number $\gets$ current\_number\\
             }
 
-            \textbf{partial\_number} $\gets$ ""\\
+            current\_number $\gets$ 0.0\\
+            decimal\_numerator $\gets$ 0\\
+            is\_negative $\gets$ fałsz\\
         }
         Wypisz \textbf{max\_number}\\
         Stop\\
