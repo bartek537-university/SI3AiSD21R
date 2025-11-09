@@ -1,3 +1,6 @@
+from typing import Final
+
+
 class Stack[T]:
     def __init__(self):
         self.elements = []
@@ -31,6 +34,7 @@ OPERATION_ORDER = {
     "^": 3,
 }
 
+
 def infix_to_postfix(infix_equation: str) -> str:
     infix_equation = f"({infix_equation})"
 
@@ -39,32 +43,38 @@ def infix_to_postfix(infix_equation: str) -> str:
 
     is_previous_symbol_numeric = False
 
-    for symbol in infix_equation:
-        if symbol.isnumeric():
+    for current_char in infix_equation:
+        if current_char.isnumeric():
             if is_previous_symbol_numeric:
-                values.put(values.pop() + symbol)
+                values.put(values.pop() + current_char)
             else:
-                values.put(symbol)
+                values.put(current_char)
             is_previous_symbol_numeric = True
             continue
 
         is_previous_symbol_numeric = False
 
-        if symbol == " ":
+        if current_char == " ":
             continue
 
-        if symbol == "(":
-            operations.put(symbol)
-        elif symbol == ")":
+        if current_char == "(":
+            operations.put(current_char)
+            continue
+
+        if current_char == ")":
             while operations.peek() != "(":
                 values.put("{1} {0} {2}".format(values.pop(), values.pop(), operations.pop()))
             operations.pop()  # Remove "(".
-        else:
-            while OPERATION_ORDER[operations.peek()] > OPERATION_ORDER[symbol]:
-                values.put("{1} {0} {2}".format(values.pop(), values.pop(), operations.pop()))
-            operations.put(symbol)
+            continue
+
+        while OPERATION_ORDER[current_char] < OPERATION_ORDER[operations.peek()]:
+            values.put("{1} {0} {2}".format(values.pop(), values.pop(), operations.pop()))
+        operations.put(current_char)
 
     return values.peek()
+
+
+EMPTY_OPERATION: Final[str] = ""
 
 
 def postfix_to_infix(postfix_equation: str) -> str:
@@ -73,35 +83,35 @@ def postfix_to_infix(postfix_equation: str) -> str:
 
     is_previous_symbol_numeric = False
 
-    for symbol in postfix_equation:
-        if symbol.isnumeric():
+    for current_char in postfix_equation:
+        if current_char.isnumeric():
             if is_previous_symbol_numeric:
-                values.put(values.pop() + symbol)
+                values.put(values.pop() + current_char)
             else:
-                values.put(symbol)
-                operations.put("L")
+                values.put(current_char)
+                operations.put(EMPTY_OPERATION)
             is_previous_symbol_numeric = True
             continue
 
         is_previous_symbol_numeric = False
 
-        if symbol == " ":
+        if current_char == " ":
             continue
 
         right_value = values.pop()
         right_operation = operations.pop()
 
-        if right_operation != "L" and OPERATION_ORDER[symbol] > OPERATION_ORDER[right_operation]:
+        if right_operation != EMPTY_OPERATION and OPERATION_ORDER[current_char] > OPERATION_ORDER[right_operation]:
             right_value = f"({right_value})"
 
         left_value = values.pop()
         left_operation = operations.pop()
 
-        if left_operation != "L" and OPERATION_ORDER[symbol] > OPERATION_ORDER[left_operation]:
+        if left_operation != EMPTY_OPERATION and OPERATION_ORDER[current_char] > OPERATION_ORDER[left_operation]:
             left_value = f"({left_value})"
 
-        values.put(f"{left_value}{symbol}{right_value}")
-        operations.put(symbol)
+        values.put(f"{left_value}{current_char}{right_value}")
+        operations.put(current_char)
 
     return values.peek()
 
