@@ -1,0 +1,81 @@
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{amsmath}
+\usepackage{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage[a4paper]{geometry}
+
+% Translations
+\SetKw{KwTo}{do}
+\SetKw{Length}{długość}
+\SetKw{ToNumber}{liczba}
+\SetKwFor{For}{Dla}{wykonuj}{koniec}
+\SetKwFor{While}{Gdy}{wykonuj}{koniec}
+\SetKw{Continue}{Przejdź do kolejnej iteracji pętli}
+\SetKwIF{If}{ElseIf}{Else}{Jeżeli}{to}{w przeciwnym razie jeżeli}{w przeciwnym razie}{koniec}
+
+% Document
+\begin{document}
+
+    \section{NWD. Niezoptymalizowany algorytm Euklidesa.}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+        Wczytaj współczynniki \textbf{a} i \textbf{b}\\
+        \While{a $\neq$ b}{
+            \If{a > b}{
+                a $\gets$ a - b
+            }
+            \Else{
+                b $\gets$ b - a
+            }
+        }
+        Wypisz \textbf{a}\\
+        Stop\\
+
+        \label{alg:algorithm1}
+    \end{algorithm}
+
+    \section{NWD. Zoptymalizowany algorytm Euklidesa.}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+        Wczytaj współczynniki \textbf{a} i \textbf{b}\\
+        \While{b $\neq$ 0}{
+            temp $\gets$ b\\
+            b $\gets$ a $\mod$ b\\
+            a $\gets$ temp\\
+        }
+        Wypisz \textbf{a}\\
+        Stop\\
+
+        \label{alg:algorithm2}
+    \end{algorithm}
+
+    \section{NWW. Zoptymalizowany algorytm Euklidesa.}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+        Wczytaj współczynniki \textbf{a} i \textbf{b}\\
+        ab\_product $\gets$ a $*$ b\\
+        \While{b $\neq$ 0}{
+            temp $\gets$ b\\
+            b $\gets$ a $\mod$ b\\
+            a $\gets$ temp\\
+        }
+        nwd $\gets$ $\frac{ab\_product}{a}$\\
+        Wypisz \textbf{nwd}\\
+        Stop\\
+
+        \label{alg:algorithm3}
+    \end{algorithm}
+
+\end{document}
