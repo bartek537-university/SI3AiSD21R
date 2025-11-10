@@ -1,0 +1,43 @@
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{amsmath}
+\usepackage{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage[a4paper]{geometry}
+
+% Translations
+\SetKw{KwTo}{do}
+\SetKw{Length}{długość}
+\SetKw{ToNumber}{liczba}
+\SetKwFor{For}{Dla}{wykonuj}{koniec}
+\SetKwFor{While}{Gdy}{wykonuj}{koniec}
+\SetKw{Continue}{Przejdź do kolejnej iteracji pętli}
+\SetKwIF{If}{ElseIf}{Else}{Jeżeli}{to}{w przeciwnym razie jeżeli}{w przeciwnym razie}{koniec}
+
+% Document
+\begin{document}
+
+    \section{Generator pseudolosowy Fibonacciego.}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+        Wczytaj \textbf{n}, operację \textbf{op} oraz wartości początkowe \textbf{x1}, \textbf{x2}\\
+        \For{i $\gets$ 1 \KwTo n}{
+            temp $\gets$ x2\\
+            x2 $\gets$ op(x1, x2)\\
+            x1 $\gets$ temp\\
+
+            Wypisz \textbf{x2}\\
+        }
+        Stop\\
+
+        \label{alg:algorithm}
+    \end{algorithm}
+
+\end{document}
