@@ -1,0 +1,40 @@
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{amsmath}
+\usepackage{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage[a4paper]{geometry}
+
+% Translations
+\SetKw{KwTo}{do}
+\SetKw{Length}{długość}
+\SetKw{ToNumber}{liczba}
+\SetKwFor{For}{Dla}{wykonuj}{koniec}
+\SetKwFor{While}{Gdy}{wykonuj}{koniec}
+\SetKw{Continue}{Przejdź do kolejnej iteracji pętli}
+\SetKwIF{If}{ElseIf}{Else}{Jeżeli}{to}{w przeciwnym razie jeżeli}{w przeciwnym razie}{koniec}
+
+% Document
+\begin{document}
+
+    \section{Liniowy generator kongruencyjny.}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+        Wczytaj \textbf{n}, współczynniki, \textbf{m}, \textbf{a}, \textbf{c} i wartość początkową \textbf{x}\\
+        \For{i $\gets$ 1 \KwTo n}{
+            x $\gets$ (a $*$ x $+$ c) mod m\\
+            Wypisz \textbf{x}\\
+        }
+        Stop\\
+
+        \label{alg:algorithm}
+    \end{algorithm}
+
+\end{document}
