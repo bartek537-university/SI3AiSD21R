@@ -1,0 +1,55 @@
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{amsmath}
+\usepackage{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage[a4paper]{geometry}
+
+% Translations
+\SetKw{KwTo}{do}
+\SetKw{Length}{długość}
+\SetKw{ToNumber}{liczba}
+\SetKwFor{For}{Dla}{wykonuj}{koniec}
+\SetKwFor{While}{Gdy}{wykonuj}{koniec}
+\SetKw{Continue}{Przejdź do kolejnej iteracji pętli}
+\SetKwIF{If}{ElseIf}{Else}{Jeżeli}{to}{w przeciwnym razie jeżeli}{w przeciwnym razie}{koniec}
+
+% Document
+\begin{document}
+
+    \section{Generator dodający z przeniesieniem.}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+        Wczytaj \textbf{n}, współczynniki \textbf{m}, \textbf{j}, \textbf{k} i wartości początkowe \textbf{x}\\
+        l $\gets$ długość(x)\\
+        c $\gets$ 0\\
+        \For{i $\gets$ 1 \KwTo n}{
+            x1 $\gets$ x[(i-j+l) mod l]\\
+            x2 $\gets$ x[(i-k+l) mod l]\\
+
+            lhs $\gets$ x1 $+$ x2 $+$ c\\
+            result $\gets$ lhs mod m\\
+
+            x[i mod l] $\gets$ result\\
+            \If{lhs $\geq$ m}{
+                c $\gets$ 1\\
+            }
+            \Else{
+                c $\gets$ 0\\
+            }
+
+            Wypisz \textbf{result}\\
+        }
+        Stop\\
+
+        \label{alg:algorithm}
+    \end{algorithm}
+
+\end{document}
