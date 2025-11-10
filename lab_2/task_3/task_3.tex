@@ -1,0 +1,46 @@
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{amsmath}
+\usepackage{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage[a4paper]{geometry}
+
+% Translations
+\SetKw{KwTo}{do}
+\SetKw{Length}{długość}
+\SetKw{ToNumber}{liczba}
+\SetKwFor{For}{Dla}{wykonuj}{koniec}
+\SetKwFor{While}{Gdy}{wykonuj}{koniec}
+\SetKw{Continue}{Przejdź do kolejnej iteracji pętli}
+\SetKwIF{If}{ElseIf}{Else}{Jeżeli}{to}{w przeciwnym razie jeżeli}{w przeciwnym razie}{koniec}
+
+% Document
+\begin{document}
+
+    \section{Opóźniony generator pseudolosowy Fibonacciego.}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+        Wczytaj \textbf{n}, współczynniki \textbf{j}, \textbf{k}, operację \textbf{op} i wartości początkowe \textbf{x}\\
+        l $\gets$ długość(x)\\
+        \For{i $\gets$ 1 \KwTo n}{
+            x1 $\gets$ x[(i-j+l) mod l]\\
+            x2 $\gets$ x[(i-k+l) mod l]\\
+
+            result $\gets$ op(x1,x2)\\
+
+            x[i mod l] $\gets$ result\\
+            Wypisz \textbf{result}\\
+        }
+        Stop\\
+
+        \label{alg:algorithm}
+    \end{algorithm}
+
+\end{document}
