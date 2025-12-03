@@ -10,7 +10,7 @@ from lab_7.task_5.task_5 import merge_sort
 
 
 def random_dataset(size: int) -> list[float]:
-    return [random.randrange(-10, 10) for _ in range(size)]
+    return [random.random() * 200 - 100 for _ in range(size)]
 
 
 dataset_sizes = [25, 50, 75, 100,

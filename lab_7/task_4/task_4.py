@@ -1,7 +1,6 @@
 def heap_sort[T](values: list[T]) -> None:
     for i in range(1, len(values)):
         value = values[i]
-
         child_index = i
 
         while child_index > 0:
