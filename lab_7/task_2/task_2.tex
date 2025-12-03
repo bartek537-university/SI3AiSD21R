@@ -1,0 +1,51 @@
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{amsmath}
+\usepackage{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage[paperheight=15in,margin=1in]{geometry}
+
+% Translations
+\SetKw{KwTo}{do}
+\SetKw{Length}{długość}
+\SetKw{ToNumber}{liczba}
+\SetKwFor{For}{Dla}{wykonuj}{koniec}
+\SetKwFor{While}{Gdy}{wykonuj}{koniec}
+\SetKw{Break}{Wyjdź z pętli}
+\SetKw{Continue}{Przejdź do kolejnej iteracji pętli}
+\SetKwIF{If}{ElseIf}{Else}{Jeżeli}{to}{w przeciwnym razie jeżeli}{w przeciwnym razie}{koniec}
+
+% Document
+\begin{document}
+
+    \section{Sortowanie bąbelkowe (bubble sort).}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+        Wczytaj listę $values$\\
+        \For{i $\gets$ 0 \KwTo \Length $values$ - 1}{
+            $any\_swaps\_occurred \gets fałsz$\\
+            \For{j $\gets$ 0 \KwTo \Length $values - i - 1$}{
+                \If{$values[j] > values[j+1]$}{
+                    $temp \gets values[j+1]$\\
+                    $values[j+1] \gets values[j]$\\
+                    $values[j] \gets temp$\\
+                    $any\_swaps\_occurred \gets prawda$\\
+                }
+            }
+            \If{$!any\_swaps\_occurred$}{
+                \Break
+            }
+        }
+        Wypisz listę $values$\\
+        Stop\\
+        \label{alg:algorithm}
+    \end{algorithm}
+
+\end{document}

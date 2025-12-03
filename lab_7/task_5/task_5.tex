@@ -1,0 +1,74 @@
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{amsmath}
+\usepackage{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage[paperheight=15in,margin=1in]{geometry}
+
+% Translations
+\SetKw{KwTo}{do}
+\SetKw{Length}{długość}
+\SetKw{ToNumber}{liczba}
+\SetKwFor{For}{Dla}{wykonuj}{koniec}
+\SetKwFor{While}{Gdy}{wykonuj}{koniec}
+\SetKw{Break}{Wyjdź z pętli}
+\SetKw{Continue}{Przejdź do kolejnej iteracji pętli}
+\SetKwIF{If}{ElseIf}{Else}{Jeżeli}{to}{w przeciwnym razie jeżeli}{w przeciwnym razie}{koniec}
+
+% Document
+\begin{document}
+
+    \section{Sortowanie szybkie (quick sort).}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start (MergeSort)\\
+        Wczytaj listę $values$ oraz wartości $start$ i $stop$\\
+
+        \If{end - start < 2}{
+            Stop\\
+        }
+        $middle \gets (start + end) div 2$
+
+        Uruchom funkcję $MergeSort$ z parametrami $values$, $start$, $middle$.\\
+        Uruchom funkcję $QuickSort$ z parametrami $values$, $middle$, $end$.\\
+
+        $head \gets start$\\
+        $l \gets start$\\
+        $r \gets middle$\\
+        $temp \gets$ pusta stablica długości $start-end$\\
+
+        \While{$l < middle$ oraz $r < end$}{
+            \If{$values[l] < values[r]$}{
+                $temp[head] \gets values[l]$\\
+                $l \gets l + 1$\\
+            }
+            \Else{
+                $temp[head] \gets values[r]$\\
+                $r \gets r + 1$\\
+            }
+            $head \gets head + 1$\\
+        }
+        \For{$i \gets l$ \KwTo $middle$}{
+            $temp[head] \gets values[i]$\\
+            $head \gets head + 1$\\
+        }
+        \For{$i \gets r$ \KwTo $end$}{
+            $temp[head] \gets values[i]$\\
+            $head \gets head + 1$\\
+        }
+        \For{$i \gets start$ \KwTo $end$}{
+            $values[i] \gets temp[i]$\\
+        }
+
+        Wypisz listę $values$\\
+        Stop (QuickSort)\\
+        \label{alg:algorithm}
+    \end{algorithm}
+
+\end{document}

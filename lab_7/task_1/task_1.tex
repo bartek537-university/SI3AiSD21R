@@ -1,0 +1,45 @@
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{amsmath}
+\usepackage{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage[paperheight=15in,margin=1in]{geometry}
+
+% Translations
+\SetKw{KwTo}{do}
+\SetKw{Length}{długość}
+\SetKw{ToNumber}{liczba}
+\SetKwFor{For}{Dla}{wykonuj}{koniec}
+\SetKwFor{While}{Gdy}{wykonuj}{koniec}
+\SetKw{Continue}{Przejdź do kolejnej iteracji pętli}
+\SetKwIF{If}{ElseIf}{Else}{Jeżeli}{to}{w przeciwnym razie jeżeli}{w przeciwnym razie}{koniec}
+
+% Document
+\begin{document}
+
+    \section{Sortowanie przez wstawianie (insertion sort).}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+        Wczytaj listę $values$\\
+        \For{i $\gets$ 1 \KwTo \Length $values$}{
+            $current \gets values[i]$\\
+            $j \gets i$\\
+            \While{$j > 0$ oraz $values[j-1] > current$}{
+                $values[j] \gets values[j-1]$\\
+                $j \gets j - 1$\\
+            }
+            $values[j] \gets current$\\
+        }
+        Wypisz listę $values$\\
+        Stop\\
+        \label{alg:algorithm}
+    \end{algorithm}
+
+\end{document}

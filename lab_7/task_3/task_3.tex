@@ -1,0 +1,64 @@
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{amsmath}
+\usepackage{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage[paperheight=15in,margin=1in]{geometry}
+
+% Translations
+\SetKw{KwTo}{do}
+\SetKw{Length}{długość}
+\SetKw{ToNumber}{liczba}
+\SetKwFor{For}{Dla}{wykonuj}{koniec}
+\SetKwFor{While}{Gdy}{wykonuj}{koniec}
+\SetKw{Break}{Wyjdź z pętli}
+\SetKw{Continue}{Przejdź do kolejnej iteracji pętli}
+\SetKwIF{If}{ElseIf}{Else}{Jeżeli}{to}{w przeciwnym razie jeżeli}{w przeciwnym razie}{koniec}
+
+% Document
+\begin{document}
+
+    \section{Sortowanie szybkie (quick sort).}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start (QuickSort)\\
+        Wczytaj listę $values$ oraz wartości $start$ i $stop$\\
+        $random\_swap\_pivot \gets$ losowa liczba całkowita z przedziału $[start, end)$\\
+
+        $pivot\_value \gets values[random\_swap\_pivot]$\\
+        $pivot\_index \gets start$\\
+        ~\\
+        $temp \gets values[end-1]$\\
+        $values[end-1] \gets values[random\_swap\_pivot]$\\
+        $values[random\_swap\_pivot] \gets temp$\\
+        ~\\
+
+
+        \For{i $\gets$ 0 \KwTo \Length $values$ - 1}{
+            \If{$values[i] < pivot\_value$}{
+                $temp \gets values[pivot\_index]$\\
+                $values[pivot\_index] \gets values[i]$\\
+                $values[i] \gets temp$\\
+                $pivot\_index \gets pivot\_index + 1$\\
+            }
+        }
+        ~\\
+        $temp \gets values[pivot\_index]$\\
+        $values[pivot\_index] \gets values[end-1]$\\
+        $values[end-1] \gets temp$\\
+        ~\\
+        Uruchom funkcję $QuickSort$ z parametrami $values$, $start$, $pivot\_index$.\\
+        Uruchom funkcję $QuickSort$ z parametrami $values$, $pivot\_index+1$, $end$.\\
+
+        Wypisz listę $values$\\
+        Stop (QuickSort)\\
+        \label{alg:algorithm}
+    \end{algorithm}
+
+\end{document}

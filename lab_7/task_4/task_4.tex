@@ -1,0 +1,87 @@
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{amsmath}
+\usepackage{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage[paperheight=15in,margin=1in]{geometry}
+
+% Translations
+\SetKw{KwTo}{do}
+\SetKw{Length}{długość}
+\SetKw{ToNumber}{liczba}
+\SetKwFor{For}{Dla}{wykonuj}{koniec}
+\SetKwFor{While}{Gdy}{wykonuj}{koniec}
+\SetKw{Break}{Wyjdź z pętli}
+\SetKw{Continue}{Przejdź do kolejnej iteracji pętli}
+\SetKwIF{If}{ElseIf}{Else}{Jeżeli}{to}{w przeciwnym razie jeżeli}{w przeciwnym razie}{koniec}
+
+% Document
+\begin{document}
+
+    \section{Sortowanie przez kopcowanie (heap sort).}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+
+        \For{$i \gets 1$ \KwTo \Length $values$}{
+            $value \gets values[i]$\\
+            $child\_index \gets i$\\
+
+            \While{$child\_index > 0$}{
+                $parent\_index \gets (child\_index-1) div 2$\\
+
+                \If{$values[parent\_index] \ge value$}{
+                    \Break
+                }
+
+                $values[child\_index] \gets values[parent\_index]$\\
+                $child\_index \gets parent\_index$\\
+            }
+
+            $values[child\_index] \gets value$\\
+        }
+
+        \For{$i \gets 0$ \KwTo \Length $values$}{
+            $leaf\_index \gets$ \Length $values - i - 1$\\
+
+            $temp \gets values[0]$\\
+            $values[0] \gets values[leaf\_index]$\\
+            $values[leaf\_index] \gets temp$\\
+
+            $parent\_index \gets 0$\\
+
+            \While{$parent\_index * 2 + 1 < left\_index$}{
+                $left\_index \gets parent\_index * 2 + 1$\\
+                $right\_index \gets parent\_index * 2 + 2$\\
+
+                \If{$right\_index < leaf\_index$ oraz $values[right\_index] > values[left\_index]$}{
+                    $max\_index \gets right\_index$\\
+                }
+                \Else{
+                    $max\_index \gets left\_index$\\
+                }
+
+                \If{$values[parent\_index] \ge values[max\_index]$}{
+                    \Break
+                }
+
+                $temp \gets values[parent\_index]$\\
+                $values[parent\_index] \gets values[max\_index]$\\
+                $values[max\_index] \gets temp$\\
+
+                $parent\_index \gets max\_index$\\
+            }
+        }
+
+        Wypisz listę $values$\\
+        Stop\\
+        \label{alg:algorithm}
+    \end{algorithm}
+
+\end{document}
