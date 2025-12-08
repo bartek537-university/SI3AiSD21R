@@ -1,0 +1,120 @@
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{amsmath}
+\usepackage{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage[paperheight=15in,margin=1in]{geometry}
+
+% Translations
+\SetKw{KwTo}{do}
+\SetKw{Length}{długość}
+\SetKw{ToNumber}{liczba}
+\SetKwFor{For}{Dla}{wykonuj}{koniec}
+\SetKwFor{While}{Gdy}{wykonuj}{koniec}
+\SetKw{Break}{Wyjdź z pętli}
+\SetKw{Continue}{Przejdź do kolejnej iteracji pętli}
+\SetKwIF{If}{ElseIf}{Else}{Jeżeli}{to}{w przeciwnym razie jeżeli}{w przeciwnym razie}{koniec}
+
+% Document
+\begin{document}
+
+    \section{Kodowanie Huffmana - kodowanie.}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+
+        Wczytaj wiadomość $message$.\\
+
+        $occurrences \gets$ pusty słownik\\
+
+        \For{każdej litery w $message$ jako $letter$}{
+            \If{$letter$ nie występuje w $occurrences$}{
+                $occurrences[letter] \gets 0$
+            }
+            $occurrences[letter] \gets occurrences[letter] + 1$
+        }
+
+        $symbols \gets$ pusta kolejka priorytetowa\\
+
+        \For{każdego klucza w $occurrences$ jako $letter$}{
+            \textbf{Zakolejkuj} trójkę $(letter, brak, brak)$ \textbf{o wadze} $-occurrences[letter]$ \textbf{w} $symbols$\\
+        }
+
+        \While{$\Length\ symbols > 1$}{
+            $right\_node \gets$ \textbf{Zdejmij element z kolejki} $symbols$\\
+            $right\_weight \gets$ \textbf{Waga} elementu $right\_node$ \textbf{w kolejce} $symbols$\\
+
+            $left\_node \gets$ \textbf{Zdejmij element z kolejki} $symbols$\\
+            $left\_weight \gets$ \textbf{Waga} elementu $left\_node$ \textbf{w kolejce} $symbols$\\
+
+            \textbf{Zakolejkuj} trójkę $(brak, left\_node, right\_node)$ \textbf{o wadze} $left\_weight + right\_weight$ \textbf{w} $symbols$\\
+        }
+
+        $root \gets$ \textbf{Zdejmij element z kolejki} $symbols$\\
+
+        $bfs\_queue \gets$ pusta kolejka\\
+        \textbf{Zakolejkuj} parę $(root, "")$ \textbf{w} $bfs\_queue$\\
+
+        $coding\_table \gets$ pusty słownik\\
+
+        \While{$\Length\ bfs\_queue > 0$}{
+            $pair \gets$ \textbf{Zdejmij element z kolejki} $bfs\_queue$\\
+
+            $node \gets pair[0]$\\
+            $code \gets pair[1]$\\
+
+            \If{$node[1] \neq brak$}{
+                \textbf{Zakolejkuj} parę $(node[1], code + "0")$ \textbf{w} $bfs\_queue$\\
+            }
+            \If{$node[2] \neq brak$}{
+                \textbf{Zakolejkuj} parę $(node[2], code + "1")$ \textbf{w} $bfs\_queue$\\
+            }
+
+            \If{$node[1] = brak$ oraz $node[2] = brak$}{
+                $coding\_table[node[0]] \gets code$\\
+            }
+        }
+
+        $encoded\_message \gets ""$\\
+
+        \For{każdej litery w $message$ jako $letter$}{
+            $encoded\_message \gets encoded\_message + coding\_table[letter]$\\
+        }
+
+        Wypisz $encoded\_message$\\
+        Stop\\
+        \label{alg:algorithm1}
+    \end{algorithm}
+
+    \section{Kodowanie Huffmana - dekodowanie.}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+
+        Wczytaj wiadomość $encoded\_message$ i tablicę kodową $code\_table$.\\
+
+        $decoded\_message \gets ""$\\
+        $current\_sequence \gets ""$\\
+
+        \For{każdej litery w $encoded\_message$ jako $letter$}{
+            $current\_sequence \gets current\_sequence+letter$\\
+
+            \If{$current\_sequence$ występuje w $code\_table$}{
+                $decoded\_message \gets decoded\_message + code\_table[current\_sequence]$\\
+                $current\_sequence \gets ""$\\
+            }
+        }
+
+        Wypisz $decoded\_message$\\
+        Stop\\
+        \label{alg:algorithm2}
+    \end{algorithm}
+
+\end{document}

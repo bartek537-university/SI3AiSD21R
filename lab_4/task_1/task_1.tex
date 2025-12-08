@@ -1,0 +1,68 @@
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{amsmath}
+\usepackage{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage[paperheight=15in,margin=1in]{geometry}
+
+% Translations
+\SetKw{KwTo}{do}
+\SetKw{Length}{długość}
+\SetKw{ToNumber}{liczba}
+\SetKwFor{For}{Dla}{wykonuj}{koniec}
+\SetKwFor{While}{Gdy}{wykonuj}{koniec}
+\SetKw{Break}{Wyjdź z pętli}
+\SetKw{Continue}{Przejdź do kolejnej iteracji pętli}
+\SetKwIF{If}{ElseIf}{Else}{Jeżeli}{to}{w przeciwnym razie jeżeli}{w przeciwnym razie}{koniec}
+
+% Document
+\begin{document}
+
+    \section{Szyfr Cezara - szyfrowanie.}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+
+        Wczytaj wiadomość $message$, przesunięcie $k$ oraz alfabet $alphabet$.\\
+
+        $a \gets$ \Length $alphabet$\\
+        $result \gets ""$\\
+
+        \For{$i \gets 0$ \KwTo \Length $message$}{
+            $letter\_index \gets$ pozycja litery $message[i]$ w $alphabet$\\
+            $result \gets result + alphabet[(letter\_index+k)\ \textbf{div}\ a]$\\
+        }
+
+        Wypisz $result$\\
+        Stop\\
+        \label{alg:algorithm1}
+    \end{algorithm}
+
+    \section{Szyfr Cezara - deszyfrowanie.}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+
+        Wczytaj wiadomość $encoded\_message$, przesunięcie $k$ oraz alfabet $alphabet$.\\
+
+        $a \gets$ \Length $alphabet$\\
+        $result \gets ""$\\
+
+        \For{$i \gets 0$ \KwTo \Length $message$}{
+            $letter\_index \gets$ pozycja litery $message[i]$ w $alphabet$\\
+            $result \gets result + alphabet[(letter\_index-k)\ \textbf{div}\ a]$\\
+        }
+
+        Wypisz $result$\\
+        Stop\\
+        \label{alg:algorithm2}
+    \end{algorithm}
+
+\end{document}

@@ -1,0 +1,134 @@
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{amsmath}
+\usepackage{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage[paperheight=15in,margin=1in]{geometry}
+
+% Translations
+\SetKw{KwTo}{do}
+\SetKw{Length}{długość}
+\SetKw{ToNumber}{liczba}
+\SetKwFor{For}{Dla}{wykonuj}{koniec}
+\SetKwFor{While}{Gdy}{wykonuj}{koniec}
+\SetKw{Break}{Wyjdź z pętli}
+\SetKw{Continue}{Przejdź do kolejnej iteracji pętli}
+\SetKwIF{If}{ElseIf}{Else}{Jeżeli}{to}{w przeciwnym razie jeżeli}{w przeciwnym razie}{koniec}
+
+% Document
+\begin{document}
+
+    \section{Kodowanie Shannona-Fano - kodowanie.}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+
+        Wczytaj wiadomość $message$.\\
+
+        $occurrences \gets$ pusty słownik\\
+
+        \For{każdej litery w $message$ jako $letter$}{
+            \If{$letter$ nie występuje w $occurrences$}{
+                $occurrences[letter] \gets 0$
+            }
+            $occurrences[letter] \gets occurrences[letter] + 1$
+        }
+
+        $sorted\_letters \gets$ pusta tablica\\
+        $letter\_index \gets 0$\\
+
+        \For{każdej litery w $occurrences$ jako $letter$}{
+            $count \gets occurrences[letter]$\\
+            $sorted\_letters[letter\_index] \gets (letter, count)$\\
+            $letter\_index \gets letter\_index+1$\\
+        }
+
+        \textbf{Posortuj} tablicę $sorted\_letters$ względem ilości wystąpień malejąco\\
+
+        $tree\_queue \gets$ pusta kolejka\\
+        \textbf{Zakolejkuj} parę $(sorted\_letters, "")$ \textbf{w} $tree\_queue$\\
+
+        $coding\_table \gets$ pusty słownik\\
+
+        \While{$\Length\ tree\_queue > 0$}{
+            $node \gets$ \textbf{Zdejmij} parę z kolejki $tree\_queue$\\
+
+            $symbols \gets node[0]$\\
+            $prefix \gets node[1]$\\
+
+            \If{$\Length\ symbols < 2$}{
+                $letter \gets symbols[0]$\\
+                $coding\_table[letter] \gets prefix$\\
+                \Continue
+            }
+
+            $weight\_left \gets 0$\\
+            $weight\_right \gets 0$\\
+
+            \For{każdego symbolu w $symbols$ jako $symbol$}{
+                $weight\_right \gets weight\_right + symbol[1]$\\
+            }
+
+            $splitter \gets 0$
+
+            \For{każdego symbolu w $symbols$ jako $symbol$}{
+                $letter\_weight \gets symbol[1]$\\
+
+                \If{$|weight\_right-weight\_left-2*letter\_weight| \leq |weight\_right-weight\_left|$}{
+                    $weight\_left \gets weight\_left + letter\_weight$\\
+                    $weight\_right \gets weight\_right - letter\_weight$\\
+
+                    $splitter \gets splitter + 1$
+                }
+            }
+
+            $left\_letters\gets$ elementy z tablicy $symbols$ na pozycjach $start...splitter-1$\\
+            $right\_letters\gets$ elementy z tablicy $symbols$ na pozycjach $splitter...end-1$\\
+
+            \textbf{Zakolejkuj} parę $(left\_letters, prefix+"0")$ \textbf{w} $tree\_queue$\\
+            \textbf{Zakolejkuj} parę $(right\_letters, prefix+"1")$ \textbf{w} $tree\_queue$\\
+        }
+
+        $encoded\_message \gets ""$\\
+
+        \For{każdej litery w $message$ jako $letter$}{
+            $encoded\_message \gets encoded\_message + coding\_table[letter]$\\
+        }
+
+        Wypisz $encoded\_message$\\
+        Stop\\
+        \label{alg:algorithm1}
+    \end{algorithm}
+
+    \section{Kodowanie Shannona-Fano - dekodowanie.}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+
+        Wczytaj wiadomość $encoded\_message$ i tablicę kodową $code\_table$.\\
+
+        $decoded\_message \gets ""$\\
+        $current\_sequence \gets ""$\\
+
+        \For{każdej litery w $encoded\_message$ jako $letter$}{
+            $current\_sequence \gets current\_sequence+letter$\\
+
+            \If{$current\_sequence$ występuje w $code\_table$}{
+                $decoded\_message \gets decoded\_message + code\_table[current\_sequence]$\\
+                $current\_sequence \gets ""$\\
+            }
+        }
+
+        Wypisz $decoded\_message$\\
+        Stop\\
+        \label{alg:algorithm2}
+    \end{algorithm}
+
+\end{document}
