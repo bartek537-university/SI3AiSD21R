@@ -1,0 +1,61 @@
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{amsmath}
+\usepackage{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage[margin=1in]{geometry}
+
+% Translations
+\SetKw{KwTo}{do}
+\SetKw{Length}{długość}
+\SetKw{ToNumber}{liczba}
+\SetKwFor{For}{Dla}{wykonuj}{koniec}
+\SetKwFor{While}{Gdy}{wykonuj}{koniec}
+\SetKw{Break}{Wyjdź z pętli}
+\SetKw{Continue}{Przejdź do kolejnej iteracji pętli}
+\SetKwIF{If}{ElseIf}{Else}{Jeżeli}{to}{w przeciwnym razie jeżeli}{w przeciwnym razie}{koniec}
+
+% Document
+\begin{document}
+
+    \section{Wyszukiwanie wzorca. Algorytm Karpa-Rabina.}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+
+        Wczytaj $text$, $pattern$ oraz funkcję hashująca $hf$\\
+
+        $text\_length \gets$ \Length $text$\\
+        $pattern\_length \gets$ \Length $pattern$\\
+
+        $matches \gets$ pusta tablica\\
+        $pattern\_hash \gets hf(pattern)$\\
+
+        $i\_max \gets text\_length - pattern\_length + 1$\\
+
+        \For{$i \gets 0$ \KwTo $i\_max$}{
+            $slice\_text \gets ""$\\
+
+            \For{$j \gets 0$ \KwTo $pattern\_length$}{
+                $slice\_text \gets slice\_text + text[j]$\\
+            }
+
+            $slice\_hash \gets hf(slice\_text)$\\
+
+            \If{$pattern\_hash = slice\_hash$}{
+                Wstaw wartość $i$ do listy $matches$\\
+            }
+        }
+
+        Wypisz listę $matches$\\
+        Stop\\
+        \label{alg:algorithm1}
+    \end{algorithm}
+
+\end{document}

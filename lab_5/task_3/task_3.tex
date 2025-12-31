@@ -1,0 +1,74 @@
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{amsmath}
+\usepackage{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage[margin=1in]{geometry}
+
+% Translations
+\SetKw{KwTo}{do}
+\SetKw{Length}{długość}
+\SetKw{ToNumber}{liczba}
+\SetKwFor{For}{Dla}{wykonuj}{koniec}
+\SetKwFor{While}{Gdy}{wykonuj}{koniec}
+\SetKw{Break}{Wyjdź z pętli}
+\SetKw{Continue}{Przejdź do kolejnej iteracji pętli}
+\SetKwIF{If}{ElseIf}{Else}{Jeżeli}{to}{w przeciwnym razie jeżeli}{w przeciwnym razie}{koniec}
+
+% Document
+\begin{document}
+
+    \section{Wyszukiwanie wzorca. Algorytm Boyera-Moorea.}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+
+        Wczytaj $text$ oraz $pattern$\\
+
+        $text\_length \gets$ \Length $text$\\
+        $pattern\_length \gets$ \Length $pattern$\\
+
+        $last\_occurrence\_table \gets$ pusty słownik\\
+
+        \For{$i \gets 0$ \KwTo $pattern\_length$}{
+            $last\_occurrence\_table[pattern[i]] \gets i$\\
+        }
+
+        $matches \gets$ pusta tablica\\
+        $pattern\_start\_index \gets 0$\\
+
+        \While{$pattern\_start\_index + pattern\_length \leq text\_length$}{
+            $in\_pattern\_index \gets pattern\_length - 1$\\
+
+            \While{$in\_pattern\_index \geq 0$ oraz $text[pattern\_start\_index+in\_pattern\_index] = pattern[in\_pattern\_index]$}{
+                $in\_pattern\_index \gets in\_pattern\_index - 1$\\
+            }
+
+            \If{$in\_pattern\_index < 0$}{
+                Wstaw wartość $pattern\_start\_index$ do listy $matches$\\
+                $pattern\_start\_index \gets pattern\_start\_index + 1$\\
+            }
+            \Else{
+                $current\_letter \gets text[pattern\_start\_index + in\_pattern\_index]$\\
+                \If{$current\_letter$ w $last\_occurrence\_table$}{
+                    $last\_occurrence\_index = last\_occurrence\_table[current\_letter]$ \\
+                    $pattern\_start\_index \gets max(1, pattern\_start\_index - last\_occurrence\_index)$\\
+                }
+                \Else{
+                    $pattern\_start\_index \gets pattern\_start\_index + 1$\\
+                }
+            }
+        }
+
+        Wypisz listę $matches$\\
+        Stop\\
+        \label{alg:algorithm1}
+    \end{algorithm}
+
+\end{document}
