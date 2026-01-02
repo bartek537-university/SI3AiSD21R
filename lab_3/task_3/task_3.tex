@@ -1,0 +1,85 @@
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{amsmath}
+\usepackage{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage[margin=1in]{geometry}
+
+% Translations
+\SetKw{KwTo}{do}
+\SetKw{Length}{długość}
+\SetKw{ToNumber}{liczba}
+\SetKwFor{For}{Dla}{wykonuj}{koniec}
+\SetKwFor{While}{Gdy}{wykonuj}{koniec}
+\SetKw{Break}{Wyjdź z pętli}
+\SetKw{Continue}{Przejdź do kolejnej iteracji pętli}
+\SetKwIF{If}{ElseIf}{Else}{Jeżeli}{to}{w przeciwnym razie jeżeli}{w przeciwnym razie}{koniec}
+
+% Document
+\begin{document}
+
+    \section{Stos}
+
+    \subsection{Dodawanie elementów ($push$).}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+
+        Wczytaj $value$\\
+
+        \If{$size \geq capacity$}{
+            Wypisz błąd o przepełnieniu stosu\\
+        }
+        \Else{
+            $values[size] \gets value$\\
+            $size \gets size + 1$\\
+        }
+
+        Stop\\
+        \label{alg:algorithm1}
+    \end{algorithm}
+
+    \subsection{Usuwanie elementów ($pop$).}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+
+        \If{$size < 1$}{
+            Wypisz błąd o pustym stosie.\\
+        }
+        \Else{
+            $popped\_value \gets values[size - 1]$\\
+            $size \gets size - 1$\\
+
+            Wypisz $popped\_value$\\
+        }
+
+        Stop\\
+        \label{alg:algorithm2}
+    \end{algorithm}
+
+    \subsection{Sprawdzanie elementu z góry ($peek$).}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+
+        \If{$size < 1$}{
+            Wypisz błąd o pustym stosie.\\
+        }
+        \Else{
+            Wypisz $values[size - 1]$\\
+        }
+
+        Stop\\
+        \label{alg:algorithm3}
+    \end{algorithm}
+
+\end{document}
