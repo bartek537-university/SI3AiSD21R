@@ -115,5 +115,7 @@ if __name__ == "__main__":
     print(doubly_linked_list)  # [5, 6, 8, 9]
     print(doubly_linked_list.remove(3))  # 9
     print(doubly_linked_list)  # [5, 6, 8]
-    print(doubly_linked_list.remove(1))  # 6
-    print(doubly_linked_list)  # [5, 8]
+
+    print(doubly_linked_list.index(5))  # 0
+    print(doubly_linked_list.index(6))  # 1
+    print(doubly_linked_list.index(8))  # 2
