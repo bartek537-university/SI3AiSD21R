@@ -1,5 +1,5 @@
 class Node[T]:
-    def __init__(self, value):
+    def __init__(self, value: T):
         self.value = value
         self.next: Node[T] | None = None
 
@@ -16,7 +16,7 @@ class SinglyLinkedList[T]:
         if not 0 <= index <= self._size:
             raise IndexError("Index out of bounds.")
 
-        node = Node[T](value)
+        node = Node(value)
 
         if index == 0:
             node.next = self._root
