@@ -1,0 +1,121 @@
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{amsmath}
+\usepackage{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage[margin=1in]{geometry}
+
+% Translations
+\SetKw{KwTo}{do}
+\SetKw{Length}{długość}
+\SetKw{ToNumber}{liczba}
+\SetKwFor{For}{Dla}{wykonuj}{koniec}
+\SetKwFor{While}{Gdy}{wykonuj}{koniec}
+\SetKw{Break}{Wyjdź z pętli}
+\SetKw{Continue}{Przejdź do kolejnej iteracji pętli}
+\SetKwIF{If}{ElseIf}{Else}{Jeżeli}{to}{w przeciwnym razie jeżeli}{w przeciwnym razie}{koniec}
+
+% Document
+\begin{document}
+
+    \section{Lista cykliczna}
+
+    \subsection{Dodawanie elementów ($insert$).}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+
+        Wczytaj $value$ oraz $index$\\
+
+        \If{nie $(0 \leq index \leq size)$}{
+            Wypisz błąd o niedozwolonym indeksie\\
+        }
+        \Else{
+            $node \gets new\ Node(value)$\\
+
+            \If{$size = 0$}{
+                $node.next \gets node$\\
+                $back \gets node$\\
+            }
+            \Else{
+                $current \gets back$\\
+                \For{$i \gets 0$ do $index$}{
+                    $current \gets current.next$\\
+                }
+                $node.next \gets current.next$\\
+                $current.next \gets node$\\
+                \If{$index = size$}{
+                    $back \gets node$\\
+                }
+            }
+
+            $size \gets size + 1$\\
+        }
+
+        Stop\\
+        \label{alg:algorithm1}
+    \end{algorithm}
+
+    \subsection{Usuwanie elementów ($remove$).}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+
+        Wczytaj $index$\\
+
+        \If{$!(0 \leq index < size)$}{
+            Wypisz błąd o niedozwolonym indeksie\\
+        }
+        \Else{
+            \If{$size = 1$}{
+                $node \gets back$\\
+                $back \gets brak$\\
+            }
+            \Else{
+                $current \gets back$\\
+                \For{$i \gets 0$ do $index$}{
+                    $current \gets current.next$\\
+                }
+                $node \gets current.next$\\
+                $current.next \gets node.next$\\
+                \If{$index = size-1$}{
+                    $back \gets current$\\
+                }
+            }
+
+            $size \gets size - 1$\\
+            Wypisz $node.value$\\
+        }
+        Stop\\
+        \label{alg:algorithm2}
+    \end{algorithm}
+
+    \subsection{Wyszukiwanie ($index$).}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+
+        Wczytaj $value$\\
+        $current \gets back$\\
+
+        \For{$i \gets 0$ do $size$}{
+            \If{$current.value = value$}{
+                Wypisz $(i-1)$ mod $size$\\
+                Stop\\
+            }
+            $current \gets current.next$\\
+        }
+        Wypisz $-1$\\
+        Stop\\
+        \label{alg:algorithm3}
+    \end{algorithm}
+
+\end{document}
