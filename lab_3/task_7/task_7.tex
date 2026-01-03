@@ -1,0 +1,126 @@
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{amsmath}
+\usepackage{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage[margin=1in]{geometry}
+
+% Translations
+\SetKw{KwTo}{do}
+\SetKw{Length}{długość}
+\SetKw{ToNumber}{liczba}
+\SetKwFor{For}{Dla}{wykonuj}{koniec}
+\SetKwFor{While}{Gdy}{wykonuj}{koniec}
+\SetKw{Break}{Wyjdź z pętli}
+\SetKw{Continue}{Przejdź do kolejnej iteracji pętli}
+\SetKwIF{If}{ElseIf}{Else}{Jeżeli}{to}{w przeciwnym razie jeżeli}{w przeciwnym razie}{koniec}
+
+% Document
+\begin{document}
+
+    \section{Lista z wartownikiem}
+
+    \subsection{Inicjalizacja (konstruktor).}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+
+        $sentinel \gets new\ Node(brak)$\\
+        $sentinel.previous \gets sentinel$\\
+        $sentinel.next \gets sentinel$\\
+
+        Stop\\
+        \label{alg:algorithm9}
+    \end{algorithm}
+
+    \subsection{Dodawanie elementów ($insert$).}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+
+        Wczytaj $value$ oraz $index$\\
+
+        \If{nie $(0 \leq index \leq size)$}{
+            Wypisz błąd o niedozwolonym indeksie\\
+        }
+        \Else{
+            $node \gets new\ Node(value)$\\
+
+            $current \gets sentinel$\\
+            \For{$i \gets 0$ do $index$}{
+                $current \gets current.next$\\
+            }
+
+            $node.previous \gets current$\\
+            $node.next \gets current.next$\\
+            $current.next.previous \gets node$\\
+            $current.next \gets node$\\
+
+            $size \gets size + 1$\\
+        }
+
+        Stop\\
+        \label{alg:algorithm1}
+    \end{algorithm}
+
+    \subsection{Usuwanie elementów ($remove$).}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+
+        Wczytaj $index$\\
+
+        \If{nie $(0 \leq index < size)$}{
+            Wypisz błąd o niedozwolonym indeksie\\
+        }
+        \Else{
+            $current \gets sentinel$\\
+            \For{$i \gets 0$ do $index$}{
+                $current \gets current.next$\\
+            }
+
+            $node \gets current.next$\\
+            $node.next.previous \gets current$\\
+            $current.next \gets node.next$\\
+
+            $size \gets size - 1$\\
+            Wypisz $node.value$\\
+        }
+        Stop\\
+        \label{alg:algorithm2}
+    \end{algorithm}
+
+    \subsection{Wyszukiwanie ($index$).}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+
+        Wczytaj $value$\\
+
+        $current \gets sentinel.next$\\
+        $index \gets 0$\\
+
+        \While{$current \neq sentinel$}{
+            \If{$current.value = value$}{
+                Wypisz $index$\\
+                Stop\\
+            }
+            $current \gets current.next$\\
+            $index \gets index + 1$\\
+        }
+
+        Wypisz $-1$\\
+        Stop\\
+        \label{alg:algorithm3}
+    \end{algorithm}
+
+\end{document}
