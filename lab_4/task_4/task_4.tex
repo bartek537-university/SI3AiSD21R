@@ -1,0 +1,64 @@
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{amsmath}
+\usepackage{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage[margin=1in]{geometry}
+
+% Translations
+\SetKw{KwTo}{do}
+\SetKw{Length}{długość}
+\SetKw{ToNumber}{liczba}
+\SetKwFor{For}{Dla}{wykonuj}{koniec}
+\SetKwFor{While}{Gdy}{wykonuj}{koniec}
+\SetKw{Break}{Wyjdź z pętli}
+\SetKw{Continue}{Przejdź do kolejnej iteracji pętli}
+\SetKwIF{If}{ElseIf}{Else}{Jeżeli}{to}{w przeciwnym razie jeżeli}{w przeciwnym razie}{koniec}
+
+% Document
+\begin{document}
+
+    \section{Algorytm Floyda-Warshalla}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+
+        Wczytaj listę krawędzi $edges$ jako \textbf{trójki} $source$, $target$, $distance$\\
+
+        $size \gets ($największa wartość z kolumn $edges[0]$ i $edges[1]) + 1$\\
+        $distances \gets$ tablica rozmiaru $size \times size$ wypełniona $\infty$\\
+
+        \For{$i \gets 0$ do $size$}{
+            $source$, $destination$, $distance \gets edges[i]$\\
+            $distances[source][destination] \gets distance$\\
+        }
+
+        \For{$i \gets 0$ do $size$}{
+            $distances[i][i] \gets 0$\\
+        }
+
+        \For{$k \gets 0$ do $size$}{
+            \For{$y \gets 0$ do $size$}{
+                \For{$x \gets 0$ do $size$}{
+                    $calculated\_distance \gets distances[y][k] + distances[k][x]$\\
+
+                    \If{$calculated\_distance < distances[y][x]$}{
+                        $distances[y][x] \gets calculated\_distance$\\
+                    }
+                }
+            }
+        }
+
+        Wypisz $distances$\\
+
+        Stop\\
+        \label{alg:algorithm1}
+    \end{algorithm}
+
+\end{document}

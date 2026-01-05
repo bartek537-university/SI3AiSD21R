@@ -9,10 +9,10 @@ def dijkstra(graph: list[list[float]], source: int, destination: int) -> tuple[f
         weights.append(math.inf)
         history.append(-1)
 
-    pending_vertices: list[int] = []
+    pending_vertices = set[int]()
 
     for i in range(len(graph)):
-        pending_vertices.append(i)
+        pending_vertices.add(i)
 
     weights[source] = 0
 
@@ -30,12 +30,12 @@ def dijkstra(graph: list[list[float]], source: int, destination: int) -> tuple[f
                 weights[neighbor] = calculated_weight
                 history[neighbor] = vertex
 
-    path = [destination]
+    path = []
     vertex = destination
 
-    while vertex != source:
-        vertex = history[vertex]
+    while vertex != -1:
         path.insert(0, vertex)
+        vertex = history[vertex]
 
     return weights[destination], path
 

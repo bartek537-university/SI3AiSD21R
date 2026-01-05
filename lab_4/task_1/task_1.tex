@@ -1,0 +1,90 @@
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{amsmath}
+\usepackage{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage[margin=1in]{geometry}
+
+% Translations
+\SetKw{KwTo}{do}
+\SetKw{Length}{długość}
+\SetKw{ToNumber}{liczba}
+\SetKwFor{For}{Dla}{wykonuj}{koniec}
+\SetKwFor{While}{Gdy}{wykonuj}{koniec}
+\SetKw{Break}{Wyjdź z pętli}
+\SetKw{Continue}{Przejdź do kolejnej iteracji pętli}
+\SetKwIF{If}{ElseIf}{Else}{Jeżeli}{to}{w przeciwnym razie jeżeli}{w przeciwnym razie}{koniec}
+
+% Document
+\begin{document}
+
+    \section{Algorytm Prima}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+
+        Wczytaj graf nieskierowany $graph$ w postaci macierzowej\\
+
+        $vertex\_count \gets$ \textbf{ilość wierzchołków} $graph$\\
+
+        $weights \gets$ tablica długości $vertex\_count$\\
+        $history \gets$ tablica długości $vertex\_count$\\
+
+        \For{$i \gets 0$ do $vertex\_count$}{
+            $weights[i] \gets \infty$\\
+            $history[i] \gets brak$\\
+        }
+
+        $pending\_vertices \gets$ set pojemności $vertex\_count$\\
+
+        \For{$i \gets 0$ do $vertex\_count$}{
+            Dodaj $i$ do $pending\_vertices$\\
+        }
+
+        $weights[0] \gets 0$\\
+
+        \While{\Length $pending\_vertices > 0$}{
+            $vertex \gets$ element z $pending\_vertices$ o najmniejszej wartości $weights[vertex]$\\
+            Usuń wartość $vertex$ z $pending\_vertices$\\
+
+            \For{$neighbor \gets 0$ do $vertex\_count$}{
+                $distance \gets graph[vertex][neighbor]$\\
+
+                \If{$distance \leq 0$ lub $neighbor$ nie występuje w $pending\_vertices$}{
+                    \Continue
+                }
+                \If{$distance < weights[neighbor]$}{
+                    $weights[neighbor] \gets distance$\\
+                    $history[neighbor] \gets vertex$\\
+                }
+            }
+        }
+
+        $edges \gets$ tablica rozmiaru $vertex\_count \times vertex\_count$ wypełniona $0$\\
+
+        \For{$vertex \gets 0$ do $vertex\_count$}{
+            $weight \gets weights[vertex]$\\
+
+            \If{$weight = \infty$}{
+                \Continue
+            }
+
+            $neighbor \gets history[vertex]$\\
+
+            $edges[vertex][neighbor] \gets weight$\\
+            $edges[neighbor][vertex] \gets weight$\\
+        }
+
+        Wypisz $edges$\\
+
+        Stop\\
+        \label{alg:algorithm1}
+    \end{algorithm}
+
+\end{document}

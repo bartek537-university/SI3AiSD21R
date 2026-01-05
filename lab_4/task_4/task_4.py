@@ -3,22 +3,23 @@ import math
 Edge = tuple[int, int, float]
 
 
-def floyd_warshall(edges: list[Edge], size: int) -> list[list[float]]:
+def floyd_warshall(edges: list[Edge]) -> list[list[float]]:
+    size = max(max(edge[0], edge[1]) for edge in edges) + 1
     distances = [[math.inf] * size for _ in range(size)]
 
     for source, destination, distance in edges:
         distances[source][destination] = distance
 
-    for i in range(size):
-        distances[i][i] = 0
+    for y in range(size):
+        distances[y][y] = 0
 
     for k in range(size):
-        for i in range(size):
-            for j in range(size):
-                calculated_distance = distances[i][k] + distances[k][j]
+        for y in range(size):
+            for x in range(size):
+                calculated_distance = distances[y][k] + distances[k][x]
 
-                if calculated_distance < distances[i][j]:
-                    distances[i][j] = calculated_distance
+                if calculated_distance < distances[y][x]:
+                    distances[y][x] = calculated_distance
 
     return distances
 
@@ -32,4 +33,4 @@ if __name__ == "__main__":
         (1, 2, 3),
     ]
 
-    print(floyd_warshall(edges, 4))
+    print(floyd_warshall(edges))

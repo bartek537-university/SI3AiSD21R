@@ -2,12 +2,8 @@ import math
 from typing import Callable
 
 
-def a_star(graph: list[list[float]], source: int, destination: int, approximate_function: Callable[[int], float]) \
+def a_star(graph: list[list[float]], source: int, destination: int, approximate_distance: Callable[[int], float]) \
         -> tuple[float, list[int]] | None:
-    """
-    https://en.wikipedia.org/wiki/A*_search_algorithm
-    """
-
     weights: list[tuple[float, float]] = []  # g_score, f_score
     history: list[int] = []
 
@@ -17,7 +13,7 @@ def a_star(graph: list[list[float]], source: int, destination: int, approximate_
 
     pending_vertices = set[int]([source])
 
-    weights[source] = (0, approximate_function(source))
+    weights[source] = (0, approximate_distance(source))
 
     while pending_vertices:
         vertex = min(pending_vertices, key=lambda pending_vertex: weights[pending_vertex][1])
@@ -34,19 +30,19 @@ def a_star(graph: list[list[float]], source: int, destination: int, approximate_
             calculated_weight = weights[vertex][0] + distance
 
             if calculated_weight < weights[neighbor][0]:
-                weights[neighbor] = (calculated_weight, calculated_weight + approximate_function(neighbor))
+                weights[neighbor] = (calculated_weight, calculated_weight + approximate_distance(neighbor))
                 history[neighbor] = vertex
                 pending_vertices.add(neighbor)
 
     if not pending_vertices:
         return None
 
-    path = [destination]
+    path = []
     vertex = destination
 
-    while vertex != source:
-        vertex = history[vertex]
+    while vertex != -1:
         path.insert(0, vertex)
+        vertex = history[vertex]
 
     return weights[destination][0], path
 
