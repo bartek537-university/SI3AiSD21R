@@ -50,7 +50,13 @@
         $weights[source] \gets 0$\\
 
         \While{\Length $pending\_vertices > 0$}{
-            $vertex \gets$ element z $pending\_vertices$ o najmniejszej wartości $weights[vertex]$\\
+            $vertex \gets$ element z $pending\_vertices$ o najmniejszej wartości
+
+            \If{$vertex = destination$}{
+                \Break
+            }
+
+            $weights[vertex]$\\
             Usuń wartość $vertex$ z $pending\_vertices$\\
 
             \For{$neighbor \gets 0$ do $vertex\_count$}{

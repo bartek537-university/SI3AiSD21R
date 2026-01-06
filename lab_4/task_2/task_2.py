@@ -18,6 +18,10 @@ def dijkstra(graph: list[list[float]], source: int, destination: int) -> tuple[f
 
     while pending_vertices:
         vertex = min(pending_vertices, key=lambda pending_vertex: weights[pending_vertex])
+
+        if vertex == destination:
+            break
+
         pending_vertices.remove(vertex)
 
         for neighbor, distance in enumerate(graph[vertex]):
