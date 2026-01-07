@@ -4,7 +4,7 @@ from typing import Callable
 
 Gene = float
 Chromosome = list[Gene]
-FitnessFunction = Callable[[Chromosome], float]
+CostFunction = Callable[[Chromosome], float]
 
 
 def clamp_position(chromosome: Chromosome, domain: tuple[Chromosome, Chromosome]) -> None:
@@ -12,9 +12,9 @@ def clamp_position(chromosome: Chromosome, domain: tuple[Chromosome, Chromosome]
         chromosome[c] = max(min(component, domain[1][c]), domain[0][c])
 
 
-def tournament_selection(fitness_scores: list[float]) -> int:
-    indices = [random.randint(0, len(fitness_scores) - 1) for _ in range(6)]
-    return min(indices, key=lambda index: fitness_scores[index])
+def tournament_selection(costs: list[float]) -> int:
+    indices = [random.randint(0, len(costs) - 1) for _ in range(4)]
+    return min(indices, key=lambda index: costs[index])
 
 
 def arithmetic_crossover(a: Chromosome, b: Chromosome) -> tuple[Chromosome, Chromosome]:
@@ -26,48 +26,48 @@ def arithmetic_crossover(a: Chromosome, b: Chromosome) -> tuple[Chromosome, Chro
     return x, y
 
 
-def arithmetic_mutation(chromosome: Chromosome, domain: tuple[Chromosome, Chromosome]):
+def arithmetic_mutation(chromosome: Chromosome):
     for i in range(len(chromosome)):
         chromosome[i] += random.uniform(-0.5, 0.5)
 
 
 def genetic_algorithm(population_size: int, iteration_count: int,
                       mutation_probability: float, crossover_probability: float,
-                      fitness_function: FitnessFunction, domain: tuple[Chromosome, Chromosome]
+                      cost_function: CostFunction, domain: tuple[Chromosome, Chromosome]
                       ) -> tuple[Chromosome, float]:
     population = list[Chromosome]()
     for _ in range(population_size):
         chromosome = [random.uniform(a, b) for a, b in zip(*domain)]
         population.append(chromosome)
 
-    fitness_scores = list[float]()
+    costs = list[float]()
     offspring = list[Chromosome]()
 
     best_chromosome = population[0]
-    best_fitness = math.inf
+    lowest_cost = math.inf
 
     for _ in range(iteration_count):
-        fitness_scores.clear()
+        costs.clear()
         offspring.clear()
 
         for chromosome in population:
-            fitness_score = fitness_function(chromosome)
-            fitness_scores.append(fitness_score)
+            cost = cost_function(chromosome)
+            costs.append(cost)
 
-            if fitness_score < best_fitness:
+            if cost < lowest_cost:
                 best_chromosome = chromosome
-                best_fitness = fitness_score
+                lowest_cost = cost
 
         while len(offspring) < population_size:
-            a = population[tournament_selection(fitness_scores)]
-            b = population[tournament_selection(fitness_scores)]
+            a = population[tournament_selection(costs)]
+            b = population[tournament_selection(costs)]
 
             if random.random() <= crossover_probability:
                 a, b = arithmetic_crossover(a, b)
 
             if random.random() <= mutation_probability:
-                arithmetic_mutation(a, domain)
-                arithmetic_mutation(b, domain)
+                arithmetic_mutation(a)
+                arithmetic_mutation(b)
 
             clamp_position(a, domain)
             clamp_position(b, domain)
@@ -76,7 +76,7 @@ def genetic_algorithm(population_size: int, iteration_count: int,
 
         population = offspring[:]
 
-    return best_chromosome, best_fitness
+    return best_chromosome, lowest_cost
 
 
 def sphere(chromosome: Chromosome) -> float:

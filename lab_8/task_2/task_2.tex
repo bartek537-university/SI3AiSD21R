@@ -1,0 +1,95 @@
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{amsmath}
+\usepackage{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage[margin=1in]{geometry}
+
+% Translations
+\SetKw{KwTo}{do}
+\SetKw{Length}{długość}
+\SetKw{ToNumber}{liczba}
+\SetKwFor{For}{Dla}{wykonuj}{koniec}
+\SetKwFor{While}{Gdy}{wykonuj}{koniec}
+\SetKw{Break}{Wyjdź z pętli}
+\SetKw{Continue}{Przejdź do kolejnej iteracji pętli}
+\SetKwIF{If}{ElseIf}{Else}{Jeżeli}{to}{w przeciwnym razie jeżeli}{w przeciwnym razie}{koniec}
+
+% Document
+\begin{document}
+
+    \section{Ewolucja różnicowa}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+
+        Wczytaj parametry $population\_size$, $iteration\_count$, $mutation\_control$ oraz $crossover\_probability$\\
+        Wczytaj funkcję celu do minimalizacji $cost\_function$ oraz badany obszar $domain$\\
+
+        $current\_population \gets$ pusta lista\\
+
+        \For{$i \gets 0$ do $population\_size$}{
+            $position \gets$ losowy punkt w badanym obszarze\\
+            Dodaj $position$ do listy $current\_population$\\
+        }
+
+        $new\_populaton \gets$ pusta tablica rozmiaru $population\_size$\\
+
+        \For{$i \gets 0$ do $iteration\_count$}{
+            \For{$j \gets 0$ do $current\_population$}{
+                $x \gets current\_population[j]$\\
+
+                $\overline{x} \gets$ punkt $x$ zmutowany zgodnie ze wzorem (\ref{eq:mut})\\
+                Przeprowadź krzyżowanie punktu $\overline{x}$ na podstawie $x$ zgodnie ze wzorem (\ref{eq:cross})\\
+                Ogranicz współrzędne $\overline{x}$ do badanego obszaru\\
+
+                \If{$cost\_function(\overline{x}) < cost\_function(x)$}{
+                    $new\_population[i] \gets \overline{x}$\\
+                }
+                \Else{
+                    $new\_population[i] \gets x$\\
+                }
+            }
+
+            $current\_population \gets new\_population$
+        }
+
+        $best\_position \gets$ pozycja z $current\_population$ o najmniejszej wartości funkcji celu\\
+        $lowest\_cost \gets cost\_function(best\_position)$\\
+
+        Wypisz $best\_position$ oraz $lowest\_cost$\\
+
+        Stop\\
+        \label{alg:algorithm1}
+    \end{algorithm}
+
+    \section{Wzory}
+
+    \subsection{Mutacja}
+
+    \begin{equation}
+        m_i = x_{r1} + mutation\_control * (x_{r2} - x_{r3}) \label{eq:mut}
+    \end{equation}
+
+    Gdzie $r1$, $r2$ i $r3$ są losowymi, niepowtarzającymi się indeksami w $current\_population$.
+
+    \subsection{Krzyżowanie}
+
+    \begin{equation}
+        c_{ij} =
+        \begin{cases}
+        m_{ij} & \Phi_j \leq crossover\_probability \text{ lub } j = d\\
+        x_{ij} & \Phi_j > crossover\_probability \text{ oraz } j \neq d
+        \end{cases}
+        \label{eq:cross}
+    \end{equation}
+
+    Gdzie $\Phi_j$ jest losową liczbą z przedziału $[0,1]$ dla każdego $j$, a $d$ jest indeksem losowej pozycji w $x$.
+
+\end{document}

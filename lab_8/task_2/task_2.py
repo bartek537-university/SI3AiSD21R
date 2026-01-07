@@ -3,7 +3,7 @@ import random
 from typing import Callable
 
 Position = list[float]
-FitnessFunction = Callable[[Position], float]
+CostFunction = Callable[[Position], float]
 
 
 def clamp_position(position: Position, domain: tuple[Position, Position]) -> None:
@@ -41,7 +41,7 @@ def crossover(base_position: Position, mutated_position: Position, crossover_pro
 
 def differential_evolution(population_size: int, iteration_count: int,
                            mutation_control: float, crossover_probability: float,
-                           profit_function: FitnessFunction, domain: tuple[Position, Position]
+                           cost_function: CostFunction, domain: tuple[Position, Position]
                            ) -> tuple[Position, float]:
     current_population = list[Position]()
     for _ in range(population_size):
@@ -57,17 +57,17 @@ def differential_evolution(population_size: int, iteration_count: int,
 
             clamp_position(crossover_position, domain)
 
-            if profit_function(crossover_position) < profit_function(current_position):
+            if cost_function(crossover_position) < cost_function(current_position):
                 new_population[i] = crossover_position
             else:
                 new_population[i] = current_position
 
         current_population = new_population[:]
 
-    best_position = min(current_population, key=profit_function)
-    best_fitness = profit_function(best_position)
+    best_position = min(current_population, key=cost_function)
+    lowest_cost = cost_function(best_position)
 
-    return best_position, best_fitness
+    return best_position, lowest_cost
 
 
 def sphere(position: Position) -> float:

@@ -1,0 +1,98 @@
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{amsmath}
+\usepackage{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage[margin=1in]{geometry}
+
+% Translations
+\SetKw{KwTo}{do}
+\SetKw{Length}{długość}
+\SetKw{ToNumber}{liczba}
+\SetKwFor{For}{Dla}{wykonuj}{koniec}
+\SetKwFor{While}{Gdy}{wykonuj}{koniec}
+\SetKw{Break}{Wyjdź z pętli}
+\SetKw{Continue}{Przejdź do kolejnej iteracji pętli}
+\SetKwIF{If}{ElseIf}{Else}{Jeżeli}{to}{w przeciwnym razie jeżeli}{w przeciwnym razie}{koniec}
+
+% Document
+\begin{document}
+
+    \section{Algorytm kukułki}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+
+        Wczytaj parametry $population\_size$, $iteration\_count$, $\beta$, $\gamma$, $\delta$, $p_a$\\
+        Wczytaj funkcję celu do minimalizacji $cost\_function$ oraz badany obszar $domain$\\
+
+        $population \gets$ pusta lista\\
+
+        \For{$i \gets 0$ do $population\_size$}{
+            $position \gets$ losowy punkt w badanym obszarze\\
+            Dodaj $position$ do listy $population$\\
+        }
+
+        $best\_nest \gets$ pozycja z $population$ o najmniejszej wartości funkcji celu\\
+        $lowest\_cost \gets cost\_function(best\_nest)$\\
+
+        \For{$i \gets 0$ do $iteration\_count$}{
+            \For{$j \gets 0$ do $current\_population$}{
+                $current\_cuckoo \gets population[j]$\\
+
+                $nest\_position \gets$ nowa pozycja utworzona na bazie $current\_cuckoo$ na podstawie wzoru (\ref{eq:nest})\\
+                Ogranicz współrzędne $nest\_position$ do badanego obszaru\\
+
+                \If{$cost\_function(nest\_position) < cost\_function(current\_cuckoo)$}{
+                    $population[i] \gets est\_position$\\
+                }
+            }
+
+            Posortuj $population$ według rosnącej wartości funkcji celu\\
+
+            \If{$cost\_function(population[0]) < lowest\_cost$}{
+                $best\_nest \gets population[0]$\\
+                $lowest\_cost \gets cost\_function(best\_nest)$\\
+            }
+
+            $nests\_to\_abandon \gets \lfloor p_a * population\_size \rfloor$
+
+            \For{$j \gets population\_size - nests\_to\_abandon$ do $population\_size$}{
+                $position \gets$ losowy punkt w badanym obszarze\\
+                $population[i] \gets position$\\
+            }
+        }
+
+        Wypisz $best\_position$ oraz $lowest\_cost$\\
+
+        Stop\\
+        \label{alg:algorithm1}
+    \end{algorithm}
+
+    \section{Wzory}
+
+    \subsection{Pozycja gniazda}
+
+    \begin{equation}
+        \begin{split}
+            n_j &= \Phi_j * L(\beta, \gamma, \delta) \label{eq:nest}\\
+            L(\beta, \gamma, \delta) &=
+                \sqrt{
+                    \frac{\gamma}{2*\pi}
+                } * \frac{
+                    \exp{(\frac{-\gamma}{2 * (\beta - \delta)})}
+                }{
+                    (\beta-\delta)^\frac{3}{2}
+                }
+        \end{split}
+    \end{equation}
+
+    Gdzie $\Phi_j$ jest losową liczbą z przedziału $[0, 1]$ dla każdego $j$.
+
+\end{document}

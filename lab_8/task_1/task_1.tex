@@ -1,0 +1,108 @@
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage{amsmath}
+\usepackage{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage[margin=1in]{geometry}
+
+% Translations
+\SetKw{KwTo}{do}
+\SetKw{Length}{długość}
+\SetKw{ToNumber}{liczba}
+\SetKwFor{For}{Dla}{wykonuj}{koniec}
+\SetKwFor{While}{Gdy}{wykonuj}{koniec}
+\SetKw{Break}{Wyjdź z pętli}
+\SetKw{Continue}{Przejdź do kolejnej iteracji pętli}
+\SetKwIF{If}{ElseIf}{Else}{Jeżeli}{to}{w przeciwnym razie jeżeli}{w przeciwnym razie}{koniec}
+
+% Document
+\begin{document}
+
+    \section{Algorytm genetyczny}
+
+    \begin{algorithm}[H]
+        \SetAlgoLined
+        Start\\
+
+        Wczytaj parametry $population\_size$, $iteration\_count$, $mutation\_probability$ oraz $crossover\_probability$\\
+        Wczytaj funkcję celu do minimalizacji $cost\_function$ oraz badany obszar $domain$\\
+
+        $population \gets$ pusta lista\\
+
+        \For{$i \gets 0$ do $population\_size$}{
+            $chromosome \gets$ losowy punkt w badanym obszarze\\
+            Dodaj $chromosome$ do listy $population$\\
+        }
+
+        $costs \gets$ pusta lista\\
+        $offspring \gets$ pusta lista\\
+
+        $best\_chromosome \gets population[0]$\\
+        $lowest\_cost \gets \infty$\\
+
+        \For{$i \gets 0$ do $iteration\_count$}{
+            Wyczyść zawartość listy $costs$\\
+            Wyczyść zawartość listy $offspring$\\
+
+            \For{$p \gets 0$ do \Length $population$}{
+                $chromosome \gets population[p]$\\
+                $cost \gets cost\_function(chromosome)$\\
+
+                \If{$cost < lowest\_cost$}{
+                    $best\_chromosome \gets chromosome$\\
+                    $lowest\_cost \gets cost$\\
+                }
+            }
+
+            \While{\Length $offspring < population\_size$}{
+                $a, b \gets$ punkty z $population$ wybrane sposobem turniejowym\\
+
+                \If{losowa liczba z przedziału $[0, 1) \leq crossover\_probability$]}{
+                    Przeprowadź krzyżowanie punktów $a$ z $b$ zgodnie ze wzorami (\ref{eq:arithcross1}) i (\ref{eq:arithcross2})
+                }
+
+                \If{losowa liczba z przedziału $[0, 1) \leq mutation\_probability$]}{
+                    Przeprowadź mutację punktów $a$ oraz $b$ zgodnie ze wzorem (\ref{eq:arithmut})
+                }
+
+                Ogranicz współrzędne $a$ oraz $b$ do badanego obszaru\\
+
+                Dodaj $a$ i $b$ do listy $offspring$\\
+            }
+
+            $population \gets offspring$\\
+        }
+
+        Wypisz $best\_chromosome$ oraz $lowest\_cost$\\
+
+        Stop\\
+        \label{alg:algorithm1}
+    \end{algorithm}
+
+    \newpage
+
+    \section{Wzory}
+
+    \subsection{Krzyżowanie arytmetyczne (arithmetic crossover)}
+
+    \begin{align}
+        \overline{a}_i &= a_i + \Phi * (b_i - a_i) \label{eq:arithcross1} \\
+        \overline{b}_i &= b_i + \Phi * (a_i - b_i) \label{eq:arithcross2}
+    \end{align}
+
+    Gdzie $\Phi$ jest losową liczbą z przedziału $[0, 1]$.
+
+    \subsection{Mutacja arytmetyczna (arithmetic mutation)}
+
+    \begin{equation}
+        \overline{x}_i = x_i + \Phi_i \label{eq:arithmut}
+    \end{equation}
+
+    Gdzie $\Phi_i$ jest losową liczbą z przedziału $[-0.5, 0.5]$ dla każdego $i$.
+
+\end{document}

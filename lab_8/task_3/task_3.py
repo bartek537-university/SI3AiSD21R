@@ -3,7 +3,7 @@ import random
 from typing import Callable
 
 Position = list[float]
-FitnessFunction = Callable[[Position], float]
+CostFunction = Callable[[Position], float]
 
 
 def clamp_position(position: Position, domain: tuple[Position, Position]) -> None:
@@ -27,35 +27,35 @@ def create_nest(position: Position, b: float, y: float, d: float) -> Position:
 
 
 def cuckoo_search(population_size: int, iteration_count: int, b: float, y: float, d: float, pa: float,
-                  profit_function: FitnessFunction, domain: tuple[Position, Position]) -> tuple[Position, float]:
-    cuckoo_population = list[Position]()
+                  cost_function: CostFunction, domain: tuple[Position, Position]) -> tuple[Position, float]:
+    population = list[Position]()
     for _ in range(population_size):
         position = [random.uniform(low, high) for low, high in zip(*domain)]
-        cuckoo_population.append(position)
+        population.append(position)
 
-    best_nest = min(cuckoo_population, key=profit_function)
-    best_fitness = profit_function(best_nest)
+    best_nest = min(population, key=cost_function)
+    lowest_cost = cost_function(best_nest)
 
     for _ in range(iteration_count):
-        for c, current_cuckoo in enumerate(cuckoo_population):
+        for c, current_cuckoo in enumerate(population):
             nest_position = create_nest(current_cuckoo, b, y, d)
             clamp_position(nest_position, domain)
 
-            if profit_function(nest_position) < profit_function(current_cuckoo):
-                cuckoo_population[c] = nest_position
+            if cost_function(nest_position) < cost_function(current_cuckoo):
+                population[c] = nest_position
 
-        cuckoo_population.sort(key=profit_function)
+        population.sort(key=cost_function)
 
-        if profit_function(cuckoo_population[0]) < best_fitness:
-            best_nest = cuckoo_population[0]
-            best_fitness = profit_function(best_nest)
+        if cost_function(population[0]) < lowest_cost:
+            best_nest = population[0]
+            lowest_cost = cost_function(best_nest)
 
         nests_to_abandon = int(pa * population_size)
         for i in range(population_size - nests_to_abandon, population_size):
             position = [random.uniform(low, high) for low, high in zip(*domain)]
-            cuckoo_population[i] = position
+            population[i] = position
 
-    return best_nest, best_fitness
+    return best_nest, lowest_cost
 
 
 def sphere(position: Position) -> float:
