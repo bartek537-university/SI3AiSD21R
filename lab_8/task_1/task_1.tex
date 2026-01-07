@@ -62,11 +62,11 @@
             \While{\Length $offspring < population\_size$}{
                 $a, b \gets$ punkty z $population$ wybrane sposobem turniejowym\\
 
-                \If{losowa liczba z przedziału $[0, 1) \leq crossover\_probability$]}{
+                \If{losowa liczba z przedziału $[0, 1) \leq crossover\_probability$}{
                     Przeprowadź krzyżowanie punktów $a$ z $b$ zgodnie ze wzorami (\ref{eq:arithcross1}) i (\ref{eq:arithcross2})
                 }
 
-                \If{losowa liczba z przedziału $[0, 1) \leq mutation\_probability$]}{
+                \If{losowa liczba z przedziału $[0, 1) \leq mutation\_probability$}{
                     Przeprowadź mutację punktów $a$ oraz $b$ zgodnie ze wzorem (\ref{eq:arithmut})
                 }
 

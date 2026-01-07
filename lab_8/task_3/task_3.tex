@@ -50,7 +50,7 @@
                 Ogranicz współrzędne $nest\_position$ do badanego obszaru\\
 
                 \If{$cost\_function(nest\_position) < cost\_function(current\_cuckoo)$}{
-                    $population[i] \gets est\_position$\\
+                    $population[j] \gets nest\_position$\\
                 }
             }
 
@@ -65,11 +65,11 @@
 
             \For{$j \gets population\_size - nests\_to\_abandon$ do $population\_size$}{
                 $position \gets$ losowy punkt w badanym obszarze\\
-                $population[i] \gets position$\\
+                $population[j] \gets position$\\
             }
         }
 
-        Wypisz $best\_position$ oraz $lowest\_cost$\\
+        Wypisz $best\_nest$ oraz $lowest\_cost$\\
 
         Stop\\
         \label{alg:algorithm1}

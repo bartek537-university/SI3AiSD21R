@@ -42,7 +42,7 @@
         $new\_populaton \gets$ pusta tablica rozmiaru $population\_size$\\
 
         \For{$i \gets 0$ do $iteration\_count$}{
-            \For{$j \gets 0$ do $current\_population$}{
+            \For{$j \gets 0$ do \Length $current\_population$}{
                 $x \gets current\_population[j]$\\
 
                 $\overline{x} \gets$ punkt $x$ zmutowany zgodnie ze wzorem (\ref{eq:mut})\\
@@ -50,10 +50,10 @@
                 Ogranicz współrzędne $\overline{x}$ do badanego obszaru\\
 
                 \If{$cost\_function(\overline{x}) < cost\_function(x)$}{
-                    $new\_population[i] \gets \overline{x}$\\
+                    $new\_population[j] \gets \overline{x}$\\
                 }
                 \Else{
-                    $new\_population[i] \gets x$\\
+                    $new\_population[j] \gets x$\\
                 }
             }
 
